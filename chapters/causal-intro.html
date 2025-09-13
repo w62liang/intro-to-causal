@@ -1,0 +1,929 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Wei Liang">
+      
+      
+        <link rel="canonical" href="https://w62liang.github.io/intro-to-causal/chapters/causal-intro.html">
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="randomization.html">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Chapter 1. Causality - Intro to Causal Inference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+
+      
+    
+
+<script src="../javascripts/mathjax.js"></script>
+
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom-appr.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#causality" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-header__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intro to Causal Inference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 1. Causality
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-nav__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Intro to Causal Inference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapter 1. Causality
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="causal-intro.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 1. Causality
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simpsons-paradox-does-statistics-tell-the-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simpson's Paradox: Does Statistics Tell the Truth?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#causality_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neyman-rubin-causal-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Neyman-Rubin Causal Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-role-of-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Role of Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#randomization-based-versus-model-based-causal-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Randomization-Based versus Model-Based Causal Inference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revisiting-simpsons-paradox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revisiting Simpson's Paradox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suggested-books-and-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggested Books and Papers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercises
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="randomization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 2. Randomization Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="prelim-testing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 3. Prelimilaries on Hypothesis Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="utwo-sample.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 4. Univariate Two-Sample Test
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reg-analysis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 5. Regression Analysis of Experimental Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instrument-var.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 6. Handling Noncompliance through Instrumental Variable Approach
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="survival.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 7. Survival Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="clinical-trial.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 8. Applications to Clinical Trials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ab-testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 9. Applications to A/B Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="observational-study.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 10. Observational Studies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sens-analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 11. VanderWeele-Ding Sensitivity Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#simpsons-paradox-does-statistics-tell-the-truth" class="md-nav__link">
+    <span class="md-ellipsis">
+      Simpson's Paradox: Does Statistics Tell the Truth?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#causality_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Causality
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#neyman-rubin-causal-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      Neyman-Rubin Causal Model
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-role-of-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Role of Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#randomization-based-versus-model-based-causal-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      Randomization-Based versus Model-Based Causal Inference
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#revisiting-simpsons-paradox" class="md-nav__link">
+    <span class="md-ellipsis">
+      Revisiting Simpson's Paradox
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suggested-books-and-papers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggested Books and Papers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exercises" class="md-nav__link">
+    <span class="md-ellipsis">
+      Exercises
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      References
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="causality">Causality</h1>
+<h2 id="simpsons-paradox-does-statistics-tell-the-truth">Simpson's Paradox: Does Statistics Tell the Truth?</h2>
+<p>We start with Simpson's paradox, a well-known phenomenon in statistics in which consistent trends within all subgroups do not necessarily translate into the same trend in the overall population. The following three tables are borrowed from a real medical study (Charig et al., 1986; Julious and Mullee, 1994), which give an example of such paradox. In the study, two surgical plans, labelled respectively by treatment A and B, are provided for patients with kidney stones. In the analysis stage, the data are stratified based on sizes of kidney stones, and success rates of the surgeries are computed for the strata and the sample. It is surprising that, while treatment A is more effective in handling small stones and also big stones, it is less effective than treatment B regarding the entire sample.</p>
+<table>
+<thead>
+<tr>
+<th>small stones</th>
+<th>success</th>
+<th>failure</th>
+<th>sucess rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>treatment A</td>
+<td>81</td>
+<td>6</td>
+<td><strong>93%</strong></td>
+</tr>
+<tr>
+<td>treatment B</td>
+<td>234</td>
+<td>36</td>
+<td>84%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>big stones</th>
+<th>success</th>
+<th>failure</th>
+<th>sucess rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>treatment A</td>
+<td>192</td>
+<td>71</td>
+<td><strong>73%</strong></td>
+</tr>
+<tr>
+<td>treatment B</td>
+<td>55</td>
+<td>25</td>
+<td>69%</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>both</th>
+<th>success</th>
+<th>failure</th>
+<th>sucess rate</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>treatment A</td>
+<td>273</td>
+<td>77</td>
+<td>78%</td>
+</tr>
+<tr>
+<td>treatment B</td>
+<td>289</td>
+<td>61</td>
+<td><strong>83%</strong></td>
+</tr>
+</tbody>
+</table>
+<p>The Simpson's paradox is counterintuitive because of long-standing misunderstandings of correlation and causation. Conclusions based on association analysis are not able to unveil the causal relationships between two variables or events. In the kidney stone study, the effects of the two treatments are confounded with the effects of the sizes of kidney stones: treatment B is overall more effective because it is applied more often to small stones, which are easier to handle.</p>
+<h2 id="causality_1">Causality</h2>
+<blockquote>
+<p>Causality is a fundamental concept in our universe. Causal inference focuses on demystifying causality from data using statistical methods.</p>
+</blockquote>
+<p>Causality is about causes and effects. It has never been explicitly defined and philosophical debate on this concept has been lasting for centuries. However, over the past decades, substantial progress has been made on the methods of quantifying causality based on experimental or observational data. This online material will focus on causal inference with experimental data.</p>
+<p>This example is borrowed from Rubin and Imbens (2015): an individual experienced a headache, took an aspirin, and the headache was removed the second day. How can we justify aspirin as the cause of that headache went away? In causal inference, this reasoning can be based on counterfactuals. One may imagine a parallel universe in which the individual did not take the aspirin. The headache state in the parallel universe is a counterfactual outcome, and causality arises from comparing the counterfactual outcome with the observed outcome. Suppose we know from god that headache would have persisted in the counterfactual world without aspirin, then the recovery could be legitimately attributed to aspirin. The outcomes in all the possible parallel universes of interest are called potential outcomes, each associated with a parallel universe.</p>
+<h2 id="neyman-rubin-causal-model">Neyman-Rubin Causal Model</h2>
+<p>The notion of potential outcomes was initially proposed by Jerzy Neyman, a Polish mathematician, in the context of randomized experiments, and then substantially developed by Donald Rubin and extended to nonrandomized studies. </p>
+<p>Provided a group of sample units, indexed by $\{1,2,\cdots,n\}$, suppose we are interested in the overall effect of a treatment (intervention/exposure/action) of two levels, $a\in\{0,1\}$, on an outcome measured after the treatment with respect to the sample units. In the aspirin example, $a=1$ represents taking aspirin and $a=0$ represents not taking it, and the outcome measurement is an indicator of whether headache is removed (or relieved). Then, for each unit $i$, there are two potential outcomes, denoted by $Y_i(1)$ and $Y_i(0)$, associated respectively with $a=1$ and $a=0$. A natural metric of causality is the sample average treatment effect (ATE),
+$$
+\tau = \frac{1}{n}\sum_{i=1}^n [Y_i(1) - Y_i(0)].
+$$
+A fundamental issue of causal inference is that the potential outcomes are not simultaneously observable. Each sample unit chooses to take aspirin or not, and we observe either $Y_i(1)$ or $Y_i(0)$, but not noth. This is where randomization steps in like a magician: despite the fundamental difficulty, we can still identify $\tau$ in randomized experiments when the sample size is sufficiently large.</p>
+<h2 id="the-role-of-randomization">The Role of Randomization</h2>
+<p>A crucial problem in causal inference is to decide which potential outcome to observe for each sample unit, called treatment assignment mechanism. Typically, we say a unit is treated or in the treatment group if $Y_i(1)$ is observed, otherwise it is in the control. The treatment assignment mechanism is controlled by experimenters in experiments, whereas it is observed rather than designed in observational studies. Randomization refers to a general class of treatment assignment mechanisms.</p>
+<p>In randomized experiments, the treatment assignment mechanism is probabilistic---each individual has a pre-specified probability to be treated. The treatment indicators are random variables and independent of unmeasured confounding factors. Regarding the role of randomization, it is commonly believed that:</p>
+<ul>
+<li>Randomization mitigates confounding bias.</li>
+<li>Randomization balances confounding variables between groups, making the two treatment groups comparable.</li>
+</ul>
+<p>In the view of statistics, a more accurate statement is:</p>
+<ul>
+<li>Randomization ensures that the causal quantities of interest are identifiable in statistical analysis without requiring further strong and untestable model assumptions.</li>
+</ul>
+<p>Let us take a look at the arguably simplest randomization method---fair coin, where each unit has a chance of $p=0.5$ to be treated and treatment assignments are independent of each other. Let $A_i$ denote the treatment indicator for unit $i$. It follows that $(A_1,\cdots,A_n)\sim B(n,p=0.5)$ and the observed outcomes are $Y_i=Y_i(A_i)$. Let $n_1$ and $n_0$ be the sample sizes of the treated and the control. Then, the difference in sample means 
+$$
+\hat{\tau} = \bar{Y}_1 - \bar{Y}_0 =  \frac{1}{n_1}\sum_{i=1}^nA_iY_i - \frac{1}{n_0}\sum_{i=1}^n(1-A_i)Y_i
+$$
+is an unbiased and consistent estimator of $\tau$ under mild conditions. The proof is left as an exercise.</p>
+<h2 id="randomization-based-versus-model-based-causal-inference">Randomization-Based versus Model-Based Causal Inference</h2>
+<p>An ongoing debate in causal inference with experimental data is that whether we should take the potential outcomes as random variables. Randomization-based causal inference views potential outcomes as fixed values where randomness comes solely from treatment assignments, whereas model-based causal inference typically assumes that the potential outcomes are independent and identically distributed random variables.</p>
+<p>The two settings are conceptually and technically different. In randomization-based causal inference, the parameter of common interest is the ATE over the sample. In model-based causal inference, the parameter of interest is the ATE over a hypothetical population from which the sample units are drawn. Therefore, model-based causal inference is more appropriate if our target population is universal. Randomization-based causal inference relaxes the model assumptions such as independence, and statistical analysis is solely based on randonmness in the design stage, which is indeed a significant relaxation and fits in the real-world complex data. However, randomization-based causal inference is also more techinically difficult and strong finite-population moment assumptions are still required to guarantee large-sample properties of the treatment effect estimators.</p>
+<p>To facilitate theoretical analysis, thereafter, we will focus on model-based causal inference where the potential outcomes $(Y_i(1),Y_i(0))$ are assumed to be indepedent and identically dsitributed from an infinite superpopulation.</p>
+<h2 id="revisiting-simpsons-paradox">Revisiting Simpson's Paradox</h2>
+<p>Let us look back on the Simpson's paradox and see what randomization can help with. Suppose $X_i$ is a binary baseline covariate (indicator of small kidney stones). For simplicity of demonstrattion, we assume $(Y_i,A_i,X_i)$ are i.i.d. from $(Y,A,X)$ and $Y&gt;0$. Simple algebra gives
+$$
+\begin{aligned}
+E(Y\mid A=a)=&amp;P(X=1\mid A=a)E(Y\mid A=a, X=1) \\
+&amp;+ P(X=0\mid A=a)E(Y\mid A=a, X=0)
+\end{aligned}
+$$
+for $a=0,1$. Let us denote $\delta=E(Y\mid A=1)-E(Y\mid A=0)$ and $\delta_x=E(Y\mid A=1,X=x) - E(Y\mid A=0,X=x)$. The Simpson's paradox, in statistical language, states that while $\delta_x&gt;0$ for $x=0,1$ we can still obtain $\delta &lt; 0$, which occurs when $\delta_1 &lt; \delta_0$ and $P(X=1\mid A=1) &gt; \delta_0/(\delta_0-\delta_1)$.</p>
+<p>For continuous $X$, we have 
+$$
+\delta = \int \delta_x p(x\mid 1) dx - \int E(Y\mid A=0,X=x)[p(x\mid 0)-p(x\mid 1)]dx
+$$
+where $p(x\mid a)$ is the density of $X$ in the treatment group $A=a$. The Simpson's paradox occurs when $\delta_x&gt;0$ for all $x$ and
+$$
+\int \delta_x p(x\mid 1) dx &lt; \int E(Y\mid A=0,X=x)[p(x\mid 0)-p(x\mid 1)]dx.
+$$</p>
+<p>The paradox is further illustrated by the following figure.</p>
+<figure>
+<p><a class="glightbox" href="figures/simpson_paradox.svg" data-type="image" data-width="auto" data-height="auto" data-desc-position="bottom"><img align="align" alt="Simpson's paradox" src="figures/simpson_paradox.svg" /></a></p>
+<figcaption>
+<p>Source: <a href="//commons.wikimedia.org/wiki/User:Schutz" title="User:Schutz">Schutz</a> - <span class="int-own-work" lang="en">Own work</span>, Public Domain, <a href="https://commons.wikimedia.org/w/index.php?curid=2240877">Link</a></p>
+</figcaption>
+</figure>
+<p>Under randomization, $A$ is independent of $X$ and $p(x\mid 1)=p(x\mid 0)$. Therefore, $\delta=\int \delta_x p(x\mid 1) dx$, which rules out the possibility of Simpson's paradox. Furthermore, randomization guarantees that the causal quantity $E[Y(a)]=E(Y\mid A=a)$ is identifiable from observed data.</p>
+<h2 id="suggested-books-and-papers">Suggested Books and Papers</h2>
+<p><cite>Ding, P. (2024). A First Course in Causal Inference. Chapman and Hall/CRC.</cite></p>
+<h2 id="exercises">Exercises</h2>
+<p><strong>1.1.</strong> Explain Simpson's paradox based on Pearson correlation coefficient.</p>
+<p><strong>1.2.</strong> Suppose the potential outcomes are fixed values and treatment indicators are Bernoulli trials, prove that $\hat{\tau} = \bar{Y}_1 - \bar{Y}_0$ is an unbiased and consistent estimator of $\tau = \frac{1}{n}\sum_{i=1}^n [Y_i(1) - Y_i(0)]$ under certain regularity conditions and present these conditions.</p>
+<p><strong>1.3.</strong> Can you find an alternative approach other than potential outcomes to quantify causality?</p>
+<h2 id="references">References</h2>
+<p><cite>Charig, C. R., Webb, D. R., Payne, S. R., &amp; Wickham, J. E. (1986). Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy. Br Med J (Clin Res Ed), 292(6524), 879-882.</cite></p>
+<p><cite>Julious, S. A., &amp; Mullee, M. A. (1994). Confounding and Simpson's paradox. The BMJ, 309(6967), 1480-1481.</cite></p>
+<p><cite>Imbens, G. W., &amp; Rubin, D. B. (2015). Causal Inference in Statistics, Social, and Biomedical Sciences. Cambridge University Press.</cite></p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 Wei Liang — Licensed under <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tooltips", "navigation.top", "search.highlight", "search.share", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

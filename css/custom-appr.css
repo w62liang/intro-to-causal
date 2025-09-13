@@ -1,0 +1,16 @@
+/* 让导航条的标题单行显示，超出部分可以横向滚动 */
+.md-nav__link {
+  white-space: nowrap;       /* 强制单行 */
+  overflow-x: auto;          /* 横向滚动 */
+  overflow-y: hidden;        /* 禁止竖向滚动 */
+  display: block;
+}
+
+/* 隐藏滚动条 - 兼容所有主流浏览器 */
+.md-nav__link::-webkit-scrollbar {
+  display: none;             /* Chrome, Safari */
+}
+.md-nav__link {
+  -ms-overflow-style: none;  /* IE, Edge */
+  scrollbar-width: none;     /* Firefox */
+}
