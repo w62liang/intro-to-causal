@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/index.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/causal-intro.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/prelim-testing.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/randomization.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/reg-analysis.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/utwo-sample.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+    <url>
+         <loc>https://w62liang.github.io/intro-to-causal/chapters/z-test.html</loc>
+         <lastmod>2025-09-13</lastmod>
+    </url>
+</urlset>

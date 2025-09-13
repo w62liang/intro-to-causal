@@ -1,0 +1,786 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Wei Liang">
+      
+      
+        <link rel="canonical" href="https://w62liang.github.io/intro-to-causal/chapters/randomization.html">
+      
+      
+        <link rel="prev" href="causal-intro.html">
+      
+      
+        <link rel="next" href="prelim-testing.html">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Chapter 2. Randomization Methods - Intro to Causal Inference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+
+      
+    
+
+<script src="../javascripts/mathjax.js"></script>
+
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom-appr.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#randomization-methods" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-header__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intro to Causal Inference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 2. Randomization Methods
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-nav__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Intro to Causal Inference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="causal-intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 1. Causality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapter 2. Randomization Methods
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="randomization.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 2. Randomization Methods
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#completely-randomized-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Completely Randomized Experiment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permuted-block-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permuted Block Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#biased-coin-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Biased Coin Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stratified-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stratified Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matched-paired-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matched Paired Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pocock-simons-minimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pocock-Simon’s Minimization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="prelim-testing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 3. Prelimilaries on Hypothesis Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="utwo-sample.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 4. Univariate Two-Sample Test
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reg-analysis.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 5. Regression Analysis of Experimental Data
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instrument-var.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 6. Handling Noncompliance through Instrumental Variable Approach
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="survival.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 7. Survival Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="clinical-trial.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 8. Applications to Clinical Trials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ab-testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 9. Applications to A/B Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="observational-study.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 10. Observational Studies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sens-analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 11. VanderWeele-Ding Sensitivity Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#completely-randomized-experiment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Completely Randomized Experiment
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permuted-block-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permuted Block Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#biased-coin-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Biased Coin Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stratified-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Stratified Randomization
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#matched-paired-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      Matched Paired Design
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pocock-simons-minimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Pocock-Simon’s Minimization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="randomization-methods">Randomization Methods</h1>
+<p>In randomized experiments, treatment assignment mechanisms are determined by practitioners at the design stage. Randomization refers to a class of probablisitic treatment assignment schemes which provide a sound statistical basis for causal inference. Regarding theoretical aspects, the randomization methods can be generally classified into two categories: covariate-free methods that do not rely on baseline covariates and covariate-adaptive methods. The first results in independence between the treatment indicators and other factors including the potential outcomes, baseline covariates, and unmeasured confounding variables. The second results in independence across strata. </p>
+<p>Let $A_1,\cdots,A_n$ denote treatment indicators. Under covariate-free randomization, we have
+$$
+\{A_1,\cdots,A_n\} \perp\!\!\!\perp\{(Y_i(1),Y_i(0)),i=1,\cdots,n\}.
+$$
+Therefore, $\hat{\tau} = \bar{Y}_1 - \bar{Y}_0$ is an unbiased estimator of $\tau=E[Y(1)-Y(0)]$.
+For covariate-adaptive methods such as stratified permuted block, stratified biased coin, and Pocock-Simon’s minimization, certain baseline covariates are used to create strata and covariate-free randomization is carried out in each strata. Then, the independence assumption holds across strata, i.e.,
+$$
+\{A_1,\cdots,A_n\} \perp\!\!\!\perp\{(Y_i(1),Y_i(0)),i=1,\cdots,n\}\mid \{Z_1,\cdots,Z_n\}
+$$
+where $Z_1,\cdots,Z_n$ are categorical variables indicating stratum membership. Suppose the observations are split into $K$ strata indexed by $\{1,\cdots,K\}$ and the sizes of the strata are $N_1,\cdots,N_K$. For covariate-adaptive randomization, we can estimate $\tau$ by $\hat{\tau}=\sum_{k=1}^K(N_k/n)\hat{\tau}_k$ where $\hat{\tau}_k$ are the stratum-specific ATEs.</p>
+<h2 id="completely-randomized-experiment">Completely Randomized Experiment</h2>
+<p>In completely randomized experiment (CRE), the sizes of treated and control, $n_1$ and $n_0$, are pre-determined and each possible treatment assignment sequence occurs with equal probability. More formally, for $(a_1,\cdots,a_n)\in\{0,1\}^n$ we have 
+$$
+P(A_1=a_1,\cdots,A_n=a_n)=\left\{ 
+\begin{array}{cc}
+1/\binom{n}{n_1} &amp; \text{if} \sum_{i=1}^na_i=n_1 \\ 
+0 &amp; \text{o.w.}
+\end{array}
+\right. .
+$$
+Under this treatment assignment scheme, one can verify that
+$$
+\begin{aligned}
+P(A_i=1) =&amp; \sum_{\sum_{j\neq i}a_j=n_1-1}P(A_1=a_1,\cdots,A_i=1,\cdots,A_n=a_n)
+=\frac{\binom{n-1}{n_1-1}}{\binom{n}{n_1}}
+=\frac{n_1}{n}
+\end{aligned}
+$$
+for $i=1,\cdots,n$. The CRE can be realized by randomly shuffling the sample sequence and picking up the first $n_1$ units to treat. Fisher–Yates shuffle is a classical algorithm for shuffling a finite sequence, where for $i$ from $n$ to $1$ we randomly select $j$ from $\{1,\cdots,i\}$ and exchange the $i$-the and $j$-th unit. For a CRE with $K&gt;2$ treatment arms, define $e_k$ as a $k$-dimensional vector with the $k$-th component being $1$ and the others being $0$. We let $A_i=e_k$ if the $i$-th unit is assinged to treatment group $k$. Let $n_1,\cdots,n_K$ be pre-specified sample sizes for the $K$ treatment groups. Then, for $(a_1,\cdots,a_n)\in\{e_1,\cdots,e_K\}^n$, the treatment assignment mechanism is
+$$
+P(A_1=a_1,\cdots,A_n=a_n)=\left\{ 
+\begin{array}{cc}
+\frac{\prod_{k=1}^Kn_k!}{n!} &amp; \text{if} \sum_{i=1}^n a_i=(n_1,\cdots,n_K) \\ 
+0 &amp; \text{o.w.}
+\end{array}
+\right. .
+$$
+Similarly, to realize CREs with multiple treatment arms, we can shuffle the sample units and assign the $k$-th block of $n_k$ sample units to the treatment group $k$. One can prove that the probability of any unit being selected to treatment group $k$ is $n_k/n$, which is left as an exercise.</p>
+<p>The CRE achieves balance in group size and is easy to implement. However, it has a few drawbacks:</p>
+<ul>
+<li>The CRE is not time-adaptive. The treatment assignment scheme relies on the sample size and thus cannot be applied to experiments with consecutive enrollment process. </li>
+<li>The CRE has a chance to yield covariate imbalance especially when the sample size is small, leading to the loss of estimator's efficiency.</li>
+</ul>
+<p>To address the first drawback, we introduce permuted block randomization method and biased coin randomization.</p>
+<h2 id="permuted-block-randomization">Permuted Block Randomization</h2>
+<p>In permuted block randomization (PBR), individuals are randomly filled in consecutive blocks of even size such as $4$, $6$ and $8$, and the CRE is applied to each block. For example, if we hope to balance the treatment group size, we can create consecutive $4$-unit blocks and set a random treatment assignment sequence (TTCC,TCTC,CCTT, CTCT,TCCT,CTTC) for each block. In a three-arm experiment, we can create blocks of $6$ units with treatment ratio such as $2:2:2$ or $1:2:3$.</p>
+<h2 id="biased-coin-randomization">Biased Coin Randomization</h2>
+<p>Biased coin randomization (BCR) is a variation of multinomial trials with dynamic treatment probabilities. The multinomial trials randomization is also called simple randomization, which randomly assigns treatments in a K-arm experiment with fixed probabilities $p_1,\cdots,p_K$. Despite time-adaptive, it may cause serious group imbalance during the study. BCR attempts to overcome imbalance in group size by adjusting the treatment probabilities dynamically based on the proportion of treated units. For example, in a two-arm experiment, the treatment probability is set by $p=0.5$ at the beginning. Suppose $10$ participants are enrolled and $8$ of them are randomly assigned to the treated group. To balance group size, we can adjust the treatment probability to $p=0.2$ for the next $10$ sample units.</p>
+<p>The PBR and BCR are both time-adaptive strategies which fit in long-term randmized experiments with consecutive recruiting phase. During the entire study, the sizes of the treatment and control groups are always well balanced. However, they do not resolve the second drawback of a CRE; There might be covariate-imbalance between treatment groups when the sample size is small. This issue can be addressed at either the design stage or the analysis stage. We introduce an experimental design called stratified randomization which mitigates covariate imbalance at the design stage.</p>
+<h2 id="stratified-randomization">Stratified Randomization</h2>
+<p>Stratified randomized experiments (SREs) are covariate-adaptive. Baseline covariates are collected prior to treatment assignment and selected risk factors considered associated with the potential outcomes are used to create strata. Covariate-free randomization is then carried out in each stratum. For example, if gender is considered prognostic for the outcome, the practitioners can perform CRE, PBR, or BCR separately for males and females, thereby ensuring that the proportion of males is balanced across treatment groups. For a continuous variable such as age, the practitioners can dichotomize or categorize the variable into intervals, e.g., under 18 years, 18 - 60 years, and 60 years and older. When there are two and more variables for stratification, the number of strata can grow rapidly, which may lead to small sample sizes within certain strata. This potential limitation of SREs highlights the importance of limiting the number of stratification variables.</p>
+<h2 id="matched-paired-design">Matched Paired Design</h2>
+<h2 id="pocock-simons-minimization">Pocock-Simon’s Minimization</h2>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 Wei Liang — Licensed under <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tooltips", "navigation.top", "search.highlight", "search.share", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>

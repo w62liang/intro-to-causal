@@ -1,0 +1,802 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Wei Liang">
+      
+      
+        <link rel="canonical" href="https://w62liang.github.io/intro-to-causal/chapters/reg-analysis.html">
+      
+      
+        <link rel="prev" href="utwo-sample.html">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>Chapter 5. Regression Analysis of Experimental Data - Intro to Causal Inference</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+
+      
+    
+
+<script src="../javascripts/mathjax.js"></script>
+
+
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/custom-appr.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+   <link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+    html.glightbox-open { overflow: initial; height: 100%; }
+    .gslide-title { margin-top: 0px; user-select: text; }
+    .gslide-desc { color: #666; user-select: text; }
+    .gslide-image img { background: white; }
+    .gscrollbar-fixer { padding-right: 15px; }
+    .gdesc-inner { font-size: 0.75rem; }
+    body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+    body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+    body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}</style> <script src="../assets/javascripts/glightbox.min.js"></script></head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#regression-analysis-of-experimental-data" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-header__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Intro to Causal Inference
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Chapter 5. Regression Analysis of Experimental Data
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="Intro to Causal Inference" class="md-nav__button md-logo" aria-label="Intro to Causal Inference" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Intro to Causal Inference
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/w62liang/intro-to-causal" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    w62liang/intro-to-causal
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="causal-intro.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 1. Causality
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="randomization.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 2. Randomization Methods
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="prelim-testing.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 3. Prelimilaries on Hypothesis Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="utwo-sample.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 4. Univariate Two-Sample Test
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Chapter 5. Regression Analysis of Experimental Data
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="reg-analysis.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 5. Regression Analysis of Experimental Data
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#two-arm-experiments-under-covariate-free-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Arm Experiments under Covariate-Free Randomization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two-Arm Experiments under Covariate-Free Randomization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-variance-anova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Variance (ANOVA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-covariance-ancova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Covariance (ANCOVA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-heterogeneous-covariance-anhecova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Heterogeneous Covariance (ANHECOVA)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-arm-experiments-under-covariate-adaptive-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Arm Experiments under Covariate-Adaptive Randomization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="instrument-var.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 6. Handling Noncompliance through Instrumental Variable Approach
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="survival.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 7. Survival Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="clinical-trial.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 8. Applications to Clinical Trials
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ab-testing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 9. Applications to A/B Testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="observational-study.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 10. Observational Studies
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sens-analysis.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Chapter 11. VanderWeele-Ding Sensitivity Analysis
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#two-arm-experiments-under-covariate-free-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Arm Experiments under Covariate-Free Randomization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Two-Arm Experiments under Covariate-Free Randomization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-variance-anova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Variance (ANOVA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-covariance-ancova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Covariance (ANCOVA)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysis-of-heterogeneous-covariance-anhecova" class="md-nav__link">
+    <span class="md-ellipsis">
+      Analysis of Heterogeneous Covariance (ANHECOVA)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#two-arm-experiments-under-covariate-adaptive-randomization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Two-Arm Experiments under Covariate-Adaptive Randomization
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="regression-analysis-of-experimental-data">Regression Analysis of Experimental Data</h1>
+<p>In the stage of statistical analysis of experimental data, baseline covariates are often available and highly encouraged to be incorporated into analysis to enhance the precision of statistical inference and the credibility of the results. Let $X_i$ denote baseline covariates, collected prior to treatment assignment. In this chapter, we introduce three commonly used regression models for $\mathcal{G}=\{(Y_i,A_i,X_i),i=1,\cdots,n\}$, corresponding regression adjustment approaches, and interpret the regression coefficients. We first consider two-arm randomized experiments where $A_i$ is an indicator variable of treatment assignment. </p>
+<h2 id="two-arm-experiments-under-covariate-free-randomization">Two-Arm Experiments under Covariate-Free Randomization</h2>
+<h3 id="analysis-of-variance-anova">Analysis of Variance (ANOVA)</h3>
+<p>Recall that $\tau=E[Y_i(1)-Y_i(0)]$ is the ATE and $\mu_0=E[Y_i(0)]$. Under covariate-free randomization, one can verify that 
+$$
+E(Y_i- \tau A_i - \mu_0\mid A_i)=0,
+$$
+which yields the working model for ANOVA:
+$$
+E(Y_i\mid A_i)=\tau A_i + \mu_0.
+$$
+The ANOVA model is correct due to randomization. To estimate $\tau$ using the sample data, we can apply the ordinary least squares (OLS) method and solve
+$$
+\arg\min_{\tau,\mu_0} \sum_{i=1}^n(Y_i-\tau A_i - \mu_0)^2,
+$$
+which yields consistent estimators $\hat{\mu}_0=\bar{Y}_0$ and $\hat{\tau}_{AN}=\bar{Y}_1 - \bar{Y}_0$ for $\mu_0$ and $\tau$. However, the variance estimator obtained from OLS is slightly different and greater than the one we provided in the former chapter.</p>
+<h3 id="analysis-of-covariance-ancova">Analysis of Covariance (ANCOVA)</h3>
+<p>ANCOVA incorporates the baseline covariates $X$ into its working model by assuming
+$$
+E(Y_i\mid A_i,X_i)=\tau A_i + \beta^\top (X_i-\mu_X) + \beta_0
+$$
+for some $\beta$ and $\beta_0$. Under covariate-free randomization, simple algebra gives that
+$$
+\tau(X_i)=E[Y_i(1)-Y_i(0)\mid X_i]=E(Y_i\mid A_i=1,X_i) - E(Y_i\mid A_i=0,X_i) = \tau,
+$$
+implying the ANCOVA model is incorrect for unless $\tau(X_i)=\tau$, i.e., the ATE is a constant across different subgroups. Let us impose this constant conditional ATE assumption. Then, $\beta_0=\mu_0$. The standard least squares method solves
+$$
+\arg\min_{\tau,\beta_0,\beta} \sum_{i=1}^n\{Y_i-\tau A_i - \beta^\top (X_i-\bar{X}) - \beta_0\}^2
+$$
+where $\bar{X}=\sum_{i=1}^nX_i/n$ and yields the estimator for $\tau$ as
+$$
+\hat{\tau}_{ANC} = \bar{Y}_1 - \bar{Y}_0 - \hat{\beta}^\top(\bar{X}_1 - \bar{X}_0) 
+$$
+where 
+$$
+\hat{\beta} = \left\{\sum_{i=1}^n(X_i-\bar{X})(X_i-\bar{X})^\top\right\}^{-1}\sum_{i=1}^n(X_i-\bar{X})Y_i+ o_p(n^{-1/2})
+$$
+is the OLS estimator for $\beta$. The $\hat{\tau}_{ANC}$ is an unbiased and consistent estimator of $\tau$. Despite having incoporated the information of baseline covariates, the asymptotic variance of $\hat{\tau}_{ANC}$ is not necessarily smaller than that of $\hat{\tau}_{AN}$ unless $n_1=n_0$ or that $\beta_1=\beta_0$ where $\beta_a = \operatorname{cov}(X)^{-1}\operatorname{cov}(X,Y(a))$ for $a=0,1$. In next section, we introduce a regression model which produces an estimator of $\tau$ that is unabised, consistent, and guaranteed to be more efficient than $\hat{\tau}_{AN}$ and also $\hat{\tau}_{ANC}$.</p>
+<h3 id="analysis-of-heterogeneous-covariance-anhecova">Analysis of Heterogeneous Covariance (ANHECOVA)</h3>
+<p>ANHECOVA considers the following model:
+$$
+E(Y_i\mid A_i,X_i)=\tau A_i + \beta^\top (X_i-\mu_X) + \theta^\top A_i(X_i-\mu_X)  + \beta_0,
+$$
+which, compared to the ANCOVA model, adds the treatment-by-covariate interaction terms. Simple algebra reveals that $\beta_0 + \beta^\top (X_i-\mu_X) = E(Y_i\mid A_i=0,X_i)$, $\beta_0=\mu_0$,
+$$
+\tau(X_i) = E(Y_i\mid A_i=1,X_i) - E(Y_i\mid A_i=0,X_i) = \tau + \theta^\top (X_i-\mu_X),
+$$
+and $\tau = E[Y_i(1)-Y_i(0)]$. Therefore, the ANHECOVA model is correct for $\tau$, but incorrect for $\tau(X_i)$ unless $\tau(X_i)$ is truly linear in $X_i$, in which case $\theta$ can be interpreted as the ATE conditional on the covariates $X$. When $\tau(X_i)$ is not linear in $X_i$, $\theta^\top (X_i-\mu_X)$ is the projection of $\tau(X_i)$ to the space spanned by $X_i$. We will explain this later.</p>
+<p>The ANHECOVA model has been studied for decades, but the name of "ANHECOVA" was firstly introduced by Ye et al. (2023), who also proved that the ANHECOVA model is applicable to a general class of randomization methods and and the estimator of $\tau$ produced by ANHECOVA is "optimal" among a class of linear-adjusted estimators. Therefore, ANHECOVA is preferred compared to ANCOVA especially when the sample size is sufficiently large or the group sizes are not balanced.</p>
+<p>To estimate $\tau$ and $\theta$, we can apply the OLS and solve
+$$
+\arg\min_{\tau,\beta_0,\beta,\theta} \sum_{i=1}^n\{Y_i-\tau A_i - \beta^\top (X_i-\bar{X}) - \theta^\top A_i(X_i-\bar{X})  - \beta_0\}^2,
+$$
+leading to the estimator
+$$
+\hat{\tau}_{ANHC} = \bar{Y}_1 - \bar{Y}_0 -(\hat{\beta}+\hat{\theta})^\top (\bar{X}_1-\bar{X}) + \hat{\beta}^\top (\bar{X}_0-\bar{X}) + o_p(n^{-1/2})
+$$
+where
+$$
+\hat{\beta} = \left\{\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})(X_i-\bar{X})^\top\right\}^{-1}\frac{1}{n_0}\sum_{A_i=0}(X_i-\bar{X})Y_i
+$$
+and 
+$$
+\hat{\theta} = \left\{\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})(X_i-\bar{X})^\top\right\}^{-1}\sum_{i=1}^n(X_i-\bar{X})\left\{\frac{A_i}{n_1}Y_i - \frac{(1-A_i)}{n_0}Y_i  \right\},
+$$
+which converges to $\operatorname{cov}^{-1}(X)\operatorname{cov}(X,Y(1)-Y(0))$, i.e., the regression coefficient of $Y(1)-Y(0)$ on $X$. We see that $\hat{\tau}_{ANHC}=\hat{\tau}_{AN}-r_n+o_p(n^{-1/2})$ where $r_n=(\hat{\beta}+\hat{\theta})^\top (\bar{X}_1-\bar{X}) - \hat{\beta}^\top (\bar{X}_0-\bar{X})$ is the adjusted term. It can be shown that $\operatorname{cov}(\hat{\tau}_{ANHC},r_n)=o_p(1)$, implying 
+$$
+\begin{aligned}
+\operatorname{var}(\hat{\tau}_{ANHC}) &amp;= \operatorname{var}(\hat{\tau}_{AN}-r_n) + o_p(n^{-1})\\
+&amp;=\operatorname{var}(\hat{\tau}_{AN}) -\operatorname{var}(r_n) + o_p(n^{-1}) \leq \operatorname{var}(\hat{\tau}_{AN}) + o_p(n^{-1}).
+\end{aligned}
+$$
+Therefore, ANHECOVA guarantees effciciency gains from covariate adjustment when $\tau(X_i)$ is somewhat correlated with $X_i$. In fact, $\operatorname{var}(\hat{\tau}_{ANHC})$ has smallest asymptotic variance among the estimators of the form 
+$$
+\{\bar{Y}_1 - \bar{Y}_0 -\beta_1^\top (\bar{X}_1-\bar{X}) + \beta_0^\top (\bar{X}_0-\bar{X}), \beta_1,\beta_2\in\mathbb{R}^p\}.
+$$</p>
+<h2 id="two-arm-experiments-under-covariate-adaptive-randomization">Two-Arm Experiments under Covariate-Adaptive Randomization</h2>
+<p>We consider regression analysis under covariate-adaptive randomization, where the stratification variables are allowed to share same components with $X_i$. We assume, as we did in Chapter 3, the sample units are divided into $K$ strata indexed by $\{1,\cdots,K\}$. We use $Z_i$ to denote a $K$-dimensional indicator variable of strata and let $Z_i=e_k$ if the unit $i$ is assigned to stratum $k$, where $e_k$ is a $K$-dimentional one-hot vector whose $k$-th component is $1$ and others are $0$. </p>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      © 2025 Wei Liang — Licensed under <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", "content.tooltips", "navigation.top", "search.highlight", "search.share", "search.suggest"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  <script id="init-glightbox">const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});
+document$.subscribe(() => { lightbox.reload() });
+</script></body>
+</html>
