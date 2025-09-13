@@ -1,0 +1,56 @@
+site_name: "Intro to Causal Inference"
+site_url: https://w62liang.github.io/intro-to-causal/
+site_author: Wei Liang
+
+repo_name: w62liang/intro-to-causal
+repo_url: https://github.com/w62liang/intro-to-causal
+copyright: "© 2025 Wei Liang — Licensed under <a href='https://creativecommons.org/licenses/by/4.0/'>CC BY 4.0</a>"
+
+theme:
+  name: material
+  custom_dir: overrides
+  font:
+    text: Roboto
+  palette:
+    primary: indigo
+  features:
+    - content.code.copy 
+    - content.code.annotate 
+    - content.tooltips   
+    - navigation.top
+    # - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+  icon:
+  repo: fontawesome/brands/github
+  annotation: material/alert-circle
+
+nav:
+  - Introduction: index.md
+  - Chapter 1. Causality: chapters/causal-intro.md
+  - Chapter 2. Randomization Methods: chapters/randomization.md
+  - Chapter 3. Prelimilaries on Hypothesis Testing: chapters/prelim-testing.md
+  - Chapter 4. Univariate Two-Sample Test: chapters/utwo-sample.md
+  - Chapter 5. Regression Analysis of Experimental Data: chapters/reg-analysis.md
+  - Chapter 6. Handling Noncompliance through Instrumental Variable Approach: chapters/instrument-var.md
+  - Chapter 7. Survival Analysis: chapters/survival.md
+  - Chapter 8. Applications to Clinical Trials: chapters/clinical-trial.md
+  - Chapter 9. Applications to A/B Testing: chapters/ab-testing.md
+  - Chapter 10. Observational Studies: chapters/observational-study.md
+  - Chapter 11. VanderWeele-Ding Sensitivity Analysis: chapters/sens-analysis.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.blocks.caption
+  - tables
+
+plugins:
+  - glightbox
+
+extra_css:
+  #- css/custom-font.css
+  - css/custom-appr.css
+
+use_directory_urls: false
