@@ -10,9 +10,13 @@
         <meta name="author" content="Wei Liang">
       
       
-        <link rel="canonical" href="https://w62liang.github.io/intro-to-causal/chapters/z-test.html">
+        <link rel="canonical" href="https://w62liang.github.io/intro-to-causal/chapters/clinical-trial.html">
       
       
+        <link rel="prev" href="instrument-var.html">
+      
+      
+        <link rel="next" href="ab-testing.html">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +24,7 @@
     
     
       
-        <title>Univariate Two-Sample Test - Intro to Causal Inference</title>
+        <title>Chapter 8. Applications to Clinical Trials - Intro to Causal Inference</title>
       
     
     
@@ -84,7 +88,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#univariate-two-sample-test" class="md-skip">
+        <a href="#clinical-trials" class="md-skip">
           Skip to content
         </a>
       
@@ -120,7 +124,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Univariate Two-Sample Test
+              Chapter 8. Applications to Clinical Trials
             
           </span>
         </div>
@@ -349,10 +353,19 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="clinical-trial.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="clinical-trial.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -363,6 +376,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -453,68 +467,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#notation-and-setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      Notation and Setup
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#null-hypotesis-of-interest" class="md-nav__link">
-    <span class="md-ellipsis">
-      Null Hypotesis of Interest
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test-statistic" class="md-nav__link">
-    <span class="md-ellipsis">
-      Test Statistic
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#critical-region" class="md-nav__link">
-    <span class="md-ellipsis">
-      Critical Region
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#p-value" class="md-nav__link">
-    <span class="md-ellipsis">
-      P-Value
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pivitol-quantity" class="md-nav__link">
-    <span class="md-ellipsis">
-      Pivitol Quantity
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -529,38 +481,8 @@
 
 
 
-<h1 id="univariate-two-sample-test">Univariate Two-Sample Test</h1>
-<p>We collect data during or after experiments and the data are used for statistical analysis. A problem of primary interest is to figure out whether the average treatment effect is significant. In this chapter, we introduce popular two-sample tests for this problem.</p>
-<h2 id="notation-and-setup">Notation and Setup</h2>
-<h2 id="null-hypotesis-of-interest">Null Hypotesis of Interest</h2>
-<p>Denote $\delta=\mu_1-\mu_0$. We are interest in testing the null hypothesis $H_0: \delta=0$ versus the alternative hypothesis $H_1: \delta\neq 0$.</p>
-<h2 id="test-statistic">Test Statistic</h2>
-<p>A test statistic serves as the key to generate a testing procedure. To test the null, we consider the t-statistic 
-$$
-T = \frac{\bar{y}_1 - \bar{y}_0}{\sqrt{s_1^2/n_1 + s_0^2/n_0}}.
-$$
-This test statistic is motivated from that $\bar{y}_1 - \bar{y}_0$ is a nutural sample estimator of $\delta$ and its variance is given by
-$$
-\operatorname{Var}(\bar{y}_1 - \bar{y}_0)=\frac{\sigma_1^2}{n_1} + \frac{\sigma_0^2}{n_0}.
-$$
- It can be shown that $s_d^2$ are unbiased and consistent sample estimators of $\sigma^2_d$. By the Central Limit Theorem (CLT) and Slutsky's Theorem , one can verify that $T$ is asymptotically standard normal under $H_0$.</p>
-<h2 id="critical-region">Critical Region</h2>
-<p>A critical region, also called rejection region, is a set of values for the sample data, constructed based on the test statistic. The critical region identifies the testing procedure: we reject the null when the observed data fall into the critical region, and have no evidence to reject the null when the observed data do not fall into the critical region.</p>
-<p>In this example, suppose we want to control the type 1 error (the chance of rejecting the null when it is actually correct) at level $\alpha$, a two-sided critical region for $T$ can be given as 
-$$
-R_{\alpha}=(-\infty, -z_{\alpha/2})\cup(z_{\alpha/2},+\infty)
-$$
-where $z_{\alpha}$ is the upper quantile of the standard normal distribution. Because $T$ is asymptotically standard normal, we observe that the type 1 error of the derived testing procedure satisfies
-$$
-P(T\in R_{\alpha}\mid H_0) \rightarrow 2(1-\Phi(z_{\alpha/2}))=\alpha.
-$$</p>
-<h2 id="p-value">P-Value</h2>
-<p>An alternative way of developing a testing procedure is to compute the so-called p-value, which provides information about the strength of evidence against the null hypothesis. P-value, denoted by $p=p(T)$, is itself a test statistic and is constructed in a way that smaller p-value implies stronger evidence against the null. Therefore, the null is rejected when $p\leq\alpha$. Given a significance level $\alpha$, a p-value is valid if and only if for every $\alpha\in[0,1]$,
-$$
-P(p(T)\leq \alpha\mid H_0)\leq \alpha.
-$$
-In other words, the resulting testing procedure controls type 1 error at $\alpha$.</p>
-<h2 id="pivitol-quantity">Pivitol Quantity</h2>
+<h1 id="clinical-trials">Clinical Trials</h1>
+<p>As defined in Friedman et al. (2015): ``A clinical trial is a prospective study comparing the effects and value of intervention (s) against a control in human beings.''</p>
 
 
 
